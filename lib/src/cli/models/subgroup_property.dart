@@ -7,9 +7,11 @@ class SubgroupProperty {
   /// Subgroup prefix.
   final String prefix;
 
+  final String pathPrefix;
+
   /// Subgroup file map (fileName: path).
   final Map<String, String> files;
 
   /// Creates an instance of [SubgroupProperty].
-  SubgroupProperty(this.prefix, this.files);
+  SubgroupProperty(this.prefix, this.pathPrefix, this.files);
 }

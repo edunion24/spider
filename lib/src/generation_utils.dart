@@ -12,8 +12,7 @@ import 'data/export_template.dart';
 import 'data/test_template.dart';
 
 /// Writes given [content] to the file with given [name] at given [path].
-void writeToFile(
-    {String? name, String? path, required String content, BaseLogger? logger}) {
+void writeToFile({String? name, String? path, required String content, BaseLogger? logger}) {
   if (!Directory(p.join(Constants.LIB_FOLDER, path)).existsSync()) {
     Directory(p.join(Constants.LIB_FOLDER, path)).createSync(recursive: true);
   }
@@ -48,23 +47,17 @@ String getDartClass({
 }) {
   var content = '';
   if (ignoredRules != null && ignoredRules.isNotEmpty) {
-    content = ignoreRulesTemplate.replaceAll(
-        Constants.KEY_IGNORED_RULES, ignoredRules.join(', '));
+    content = ignoreRulesTemplate.replaceAll(Constants.KEY_IGNORED_RULES, ignoredRules.join(', '));
   }
 
   if (!noComments) {
-    content += timeStampComment.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+    content += timeStampComment.replaceAll(Constants.KEY_TIME, DateTime.now().toString());
   }
   if (usePartOf) {
-    content +=
-        partOfTemplate.replaceAll(Constants.KEY_FILE_NAME, exportFileName!);
+    content += partOfTemplate.replaceAll(Constants.KEY_FILE_NAME, exportFileName!);
   }
 
-  content += classTemplate
-      .replaceAll(Constants.KEY_CLASS_NAME, className)
-      .replaceAll(Constants.KEY_REFERENCES, references)
-      .replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, valuesList ?? '');
+  content += classTemplate.replaceAll(Constants.KEY_CLASS_NAME, className).replaceAll(Constants.KEY_REFERENCES, references).replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, valuesList ?? '');
   return content;
 }
 
@@ -82,14 +75,9 @@ String getExportContent({
 }) {
   var content = '';
   if (!noComments) {
-    content += timeStampComment.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+    content += timeStampComment.replaceAll(Constants.KEY_TIME, DateTime.now().toString());
   }
-  content += fileNames
-      .map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate)
-          .replaceAll(Constants.KEY_FILE_NAME, item))
-      .toList()
-      .join('\n\n');
+  content += fileNames.map<String>((item) => (usePartOf ? partTemplate : exportFileTemplate).replaceAll(Constants.KEY_FILE_NAME, item)).toList().join('\n\n');
   return content;
 }
 
@@ -104,10 +92,7 @@ String getReference({
   required String assetName,
   required String assetPath,
 }) {
-  return referenceTemplate
-      .replaceAll(Constants.KEY_PROPERTIES, properties)
-      .replaceAll(Constants.KEY_ASSET_NAME, assetName)
-      .replaceAll(Constants.KEY_ASSET_PATH, assetPath);
+  return referenceTemplate.replaceAll(Constants.KEY_PROPERTIES, properties).replaceAll(Constants.KEY_ASSET_NAME, assetName).replaceAll(Constants.KEY_ASSET_PATH, assetPath);
 }
 
 /// Generates a value declaration dart code which contains a list of references.
@@ -118,9 +103,7 @@ String getListOfReferences({
   required String properties,
   required List<String> assetNames,
 }) {
-  return referencesTemplate
-      .replaceAll(Constants.KEY_PROPERTIES, properties)
-      .replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, assetNames.toString());
+  return referencesTemplate.replaceAll(Constants.KEY_PROPERTIES, properties).replaceAll(Constants.KEY_LIST_OF_ALL_REFERENCES, assetNames.toString());
 }
 
 /// Generates test class for the generated references file.
@@ -142,8 +125,7 @@ String getTestClass({
 }) {
   var content = '';
   if (!noComments) {
-    content += timeStampTemplate.replaceAll(
-        Constants.KEY_TIME, DateTime.now().toString());
+    content += timeStampTemplate.replaceAll(Constants.KEY_TIME, DateTime.now().toString());
   }
   content += testTemplate
       .replaceAll(Constants.KEY_PROJECT_NAME, project)
@@ -159,7 +141,5 @@ String getTestClass({
 /// [className] denotes the name of the class this asset reference variable
 /// belongs to.
 String getTestCase(String className, String assetName) {
-  return expectTestTemplate
-      .replaceAll(Constants.KEY_CLASS_NAME, className)
-      .replaceAll(Constants.KEY_ASSET_NAME, assetName);
+  return expectTestTemplate.replaceAll(Constants.KEY_CLASS_NAME, className).replaceAll(Constants.KEY_ASSET_NAME, assetName);
 }

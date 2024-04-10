@@ -77,6 +77,8 @@ class GlobalConfigs {
   /// Whether to generate references for fonts defined in pubspec.yaml file.
   final FontConfigs fontConfigs;
 
+  final String pathPrefix;
+
   /// Default constructor.
   GlobalConfigs({
     required this.ignoredRules,
@@ -88,13 +90,13 @@ class GlobalConfigs {
     required this.exportFileName,
     required this.projectName,
     required this.useReferencesList,
+    required this.pathPrefix,
     this.useFlutterTestImports = false,
     this.fontConfigs = const FontConfigs(generate: false),
   });
 
   /// Creates [GlobalConfigs] from given [json] map data.
-  factory GlobalConfigs.fromJson(
-      Map<String, dynamic> json, Map<String, dynamic> pubspec) {
+  factory GlobalConfigs.fromJson(Map<String, dynamic> json, Map<String, dynamic> pubspec) {
     List<String>? ignoredRules;
     if (json['ignored_rules'] != null) {
       ignoredRules = [];
@@ -111,6 +113,7 @@ class GlobalConfigs {
       exportFileName: json['export_file'] ?? Constants.DEFAULT_EXPORT_FILE,
       projectName: pubspec['name'],
       useReferencesList: json['use_references_list'] == true,
+      pathPrefix: json['path_prefix'] ?? '',
       useFlutterTestImports: pubspec['dependencies']?['flutter'] != null,
       fontConfigs: FontConfigs.fromJson(json['fonts']),
     );
@@ -150,8 +153,7 @@ class FontConfigs {
     if (json is! Map) return FontConfigs(generate: false);
 
     final className = json['class_name'].toString();
-    final fileName =
-        Formatter.formatFileName(json['file_name']?.toString() ?? className);
+    final fileName = Formatter.formatFileName(json['file_name']?.toString() ?? className);
     final prefix = json['prefix']?.toString();
     final useUnderScores = json['use_underscores'] == true;
 

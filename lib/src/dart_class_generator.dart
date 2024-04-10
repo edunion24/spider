@@ -87,6 +87,7 @@ class DartClassGenerator {
         properties.add(
           SubgroupProperty(
             group.prefix!,
+            group.pathPrefix,
             createFileMap(dir: path, types: group.types!),
           ),
         );
@@ -97,6 +98,7 @@ class DartClassGenerator {
           properties.add(
             SubgroupProperty(
               subgroup.prefix,
+              group.pathPrefix,
               createFileMap(dir: path, types: group.types ?? subgroup.types),
             ),
           );
@@ -243,7 +245,7 @@ class DartClassGenerator {
                         : group.prefix ?? property.prefix,
                     useUnderScores: group.useUnderScores,
                   ),
-                  assetPath: Formatter.formatPath(property.files[name]!));
+                  assetPath: '${property.pathPrefix}${Formatter.formatPath(property.files[name]!)}');
             },
           )
           .toList()

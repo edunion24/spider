@@ -49,27 +49,20 @@ class Spider {
     } else if (fontsOnly) {
       // [GlobalConfigs.generateForFonts] is not true and fonts-only flag is
       // given then exit with error.
-      logger?.exitWith(sprintf(
-          ConsoleMessages.fontsOnlyExecutedWithoutSetTemplate,
-          [FlagNames.fontsOnly]));
+      logger?.exitWith(sprintf(ConsoleMessages.fontsOnlyExecutedWithoutSetTemplate, [FlagNames.fontsOnly]));
     }
   }
 
   /// Generates library export file for all the generated references files.
   void exportAsLibrary() {
-    final List<String> fileNames = config.groups
-        .map<String>((group) => Formatter.formatFileName(group.fileName))
-        .toList();
+    final List<String> fileNames = config.groups.map<String>((group) => Formatter.formatFileName(group.fileName)).toList();
 
     // Don't include files that does not exist.
-    fileNames.removeWhere(
-        (name) => file(p.join('lib', config.globals.package, name)) == null);
+    fileNames.removeWhere((name) => file(p.join('lib', config.globals.package, name)) == null);
 
-    if (config.globals.fontConfigs.generate &&
-        config.pubspec['flutter']?['fonts'] != null) {
+    if (config.globals.fontConfigs.generate && config.pubspec['flutter']?['fonts'] != null) {
       // Only add fonts.dart in exports if fonts are generated.
-      fileNames
-          .add(Formatter.formatFileName(config.globals.fontConfigs.fileName));
+      fileNames.add(Formatter.formatFileName(config.globals.fontConfigs.fileName));
     }
 
     // Don't generate export file if nothing is generated.
@@ -99,7 +92,6 @@ class Spider {
       return;
     }
     final generator = FontsGenerator();
-    generator.generate(
-        config.pubspec['flutter']['fonts'], config.globals, logger);
+    generator.generate(config.pubspec['flutter']['fonts'], config.globals, logger);
   }
 }
